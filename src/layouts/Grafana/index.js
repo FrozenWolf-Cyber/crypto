@@ -28,7 +28,7 @@ function GrafanaGate() {
 
   return (
     <DashboardLayout>
-    <DashboardNavbar />
+      <DashboardNavbar />
       <MDBox
         display="flex"
         flexDirection="column"
