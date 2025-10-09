@@ -1,7 +1,7 @@
 import MDBox from "components/MDBox";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import { useMaterialUIController } from "context";
-
+import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 function WandB() {
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
