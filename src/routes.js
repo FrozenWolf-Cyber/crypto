@@ -38,13 +38,17 @@ Coded by www.creative-tim.com
 // Material Dashboard 2 React layouts
 import Dashboard from "layouts/dashboard";
 import Tables from "layouts/tables";
-import Billing from "layouts/billing";
-import RTL from "layouts/rtl";
-import Notifications from "layouts/notifications";
-import Profile from "layouts/profile";
-import SignIn from "layouts/authentication/sign-in";
-import SignUp from "layouts/authentication/sign-up";
-
+import WandB from "layouts/WandB";
+import MLflowGate from "layouts/MLflow";
+import GrafanaGate from "layouts/Grafana";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import TableViewIcon from "@mui/icons-material/TableView";
+import TimelineIcon from "@mui/icons-material/Timeline";
+import AutoGraphIcon from "@mui/icons-material/AutoGraph";
+import InsightsIcon from "@mui/icons-material/Insights";
+import GrafanaLogo from "assets/images/grafana_logo.png";
+import WandbLogo from "assets/images/wandb_logo.png";
+import MLflowlogo from "assets/images/mlflow_logo.png";
 // @mui icons
 import Icon from "@mui/material/Icon";
 
@@ -53,7 +57,7 @@ const routes = [
     type: "collapse",
     name: "Dashboard",
     key: "dashboard",
-    icon: <Icon fontSize="small">dashboard</Icon>,
+    icon: <DashboardIcon fontSize="small" />,
     route: "/dashboard",
     component: <Dashboard />,
   },
@@ -61,58 +65,83 @@ const routes = [
     type: "collapse",
     name: "Tables",
     key: "tables",
-    icon: <Icon fontSize="small">table_view</Icon>,
+    icon: <TableViewIcon fontSize="small" />,
     route: "/tables",
     component: <Tables />,
   },
   {
     type: "collapse",
-    name: "Billing",
-    key: "billing",
-    icon: <Icon fontSize="small">receipt_long</Icon>,
-    route: "/billing",
-    component: <Billing />,
+    name: "WandB",
+    key: "monitor",
+    icon: <img src={WandbLogo} alt="Grafana" style={{ width: 20, height: 20 }} />,
+    route: "/monitor",
+    component: <WandB />,
   },
   {
     type: "collapse",
-    name: "RTL",
-    key: "rtl",
-    icon: <Icon fontSize="small">format_textdirection_r_to_l</Icon>,
-    route: "/rtl",
-    component: <RTL />,
+    name: "MLflow",
+    key: "mlflow",
+    icon: <img src={MLflowlogo} alt="Grafana" style={{ width: 20, height: 20 }} />,
+    route: "/mlflow",
+    component: <MLflowGate />,
   },
   {
     type: "collapse",
-    name: "Notifications",
-    key: "notifications",
-    icon: <Icon fontSize="small">notifications</Icon>,
-    route: "/notifications",
-    component: <Notifications />,
+    name: "Grafana",
+    key: "grafana",
+    icon: <img src={GrafanaLogo} alt="Grafana" style={{ width: 20, height: 20 }} />,
+    route: "/grafana",
+    component: <GrafanaGate />,
   },
-  {
-    type: "collapse",
-    name: "Profile",
-    key: "profile",
-    icon: <Icon fontSize="small">person</Icon>,
-    route: "/profile",
-    component: <Profile />,
-  },
-  {
-    type: "collapse",
-    name: "Sign In",
-    key: "sign-in",
-    icon: <Icon fontSize="small">login</Icon>,
-    route: "/authentication/sign-in",
-    component: <SignIn />,
-  },
-  {
-    type: "collapse",
-    name: "Sign Up",
-    key: "sign-up",
-    icon: <Icon fontSize="small">assignment</Icon>,
-    route: "/authentication/sign-up",
-    component: <SignUp />,
-  },
+
+  // {
+  //   type: "collapse",
+  //   name: "Billing",
+  //   key: "billing",
+  //   icon: <Icon fontSize="small">receipt_long</Icon>,
+  //   route: "/billing",
+  //   component: <Billing />,
+  // },
+  // {
+  //   type: "collapse",
+  //   name: "RTL",
+  //   key: "rtl",
+  //   icon: <Icon fontSize="small">format_textdirection_r_to_l</Icon>,
+  //   route: "/rtl",
+  //   component: <RTL />,
+  // },
+  // {
+  //   type: "collapse",
+  //   name: "Notifications",
+  //   key: "notifications",
+  //   icon: <Icon fontSize="small">notifications</Icon>,
+  //   route: "/notifications",
+  //   component: <Notifications />,
+  // },
+  // {
+  //   type: "collapse",
+  //   name: "Profile",
+  //   key: "profile",
+  //   icon: <Icon fontSize="small">person</Icon>,
+  //   route: "/profile",
+  //   component: <Profile />,
+  // },
+  // {
+  //   type: "collapse",
+  //   name: "Sign In",
+  //   key: "sign-in",
+  //   icon: <Icon fontSize="small">login</Icon>,
+  //   route: "/authentication/sign-in",
+  //   component: <SignIn />,
+  // },
+  // {
+  //   type: "collapse",
+  //   name: "Sign Up",
+  //   key: "sign-up",
+  //   icon: <Icon fontSize="small">assignment</Icon>,
+  //   route: "/authentication/sign-up",
+  //   component: <SignUp />,
+  // },
 ];
 
 export default routes;

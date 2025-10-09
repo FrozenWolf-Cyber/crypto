@@ -15,10 +15,10 @@ Coded by www.creative-tim.com
 
 // @mui material components
 import Grid from "@mui/material/Grid";
+import MDButton from "components/MDButton";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
-
 // Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
@@ -26,136 +26,124 @@ import Footer from "examples/Footer";
 import ReportsBarChart from "examples/Charts/BarCharts/ReportsBarChart";
 import ReportsLineChart from "examples/Charts/LineCharts/ReportsLineChart";
 import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
-
+import { usePrices } from "../../usePrices.js";
+import { useTRL } from "../../useTRL.js";
+import CandlestickChart from "../../CandlestickChart.js";
 // Data
 import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
 import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
+import { useState } from "react";
+import Switch from "@mui/material/Switch";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+
+import { useEffect, useMemo } from "react";
+
+// Material Dashboard 2 React context
+import { useMaterialUIController, setDarkMode } from "context";
 
 // Dashboard components
 import Projects from "layouts/dashboard/components/Projects";
 import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
+import {
+  setOpenConfigurator,
+  setTransparentSidenav,
+  setWhiteSidenav,
+  setFixedNavbar,
+  setSidenavColor,
+} from "context";
 
 function Dashboard() {
+  const [controller, dispatch] = useMaterialUIController();
+  const { darkMode } = controller;
+  const [reloadTrigger, setReloadTrigger] = useState(0);
+  const [trlReloadTrigger, setTRLReloadTrigger] = useState(0);
+
+  const handleDarkModeToggle = () => {
+    setDarkMode(dispatch, !darkMode);
+  };
+  const handleReload = () => {
+    console.log("Manual reload triggered");
+    setReloadTrigger((prev) => prev + 1);
+  };
+
+  // Clear cache function
+  const handleClear = () => {
+    console.log("Clearing local cache");
+    localStorage.removeItem("pricesData");
+    localStorage.removeItem("lastFingerprint");
+    setReloadTrigger((prev) => prev + 1);
+  };
+
+  // Sync function (called every 1 hour)
+  useEffect(() => {
+    const syncInterval = setInterval(() => {
+      console.log("Hourly sync triggered");
+      setReloadTrigger((prev) => prev + 1);
+    }, 60 * 60 * 1000); // 1 hour
+
+    return () => clearInterval(syncInterval);
+  }, []);
   const { sales, tasks } = reportsLineChartData;
+  const data = usePrices(reloadTrigger); // update usePrices to accept dependency
+
+  const trl = useTRL(trlReloadTrigger);
 
   return (
     <DashboardLayout>
-      <DashboardNavbar />
       <MDBox py={3}>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="dark"
-                icon="weekend"
-                title="Bookings"
-                count={281}
-                percentage={{
-                  color: "success",
-                  amount: "+55%",
-                  label: "than lask week",
-                }}
-              />
-            </MDBox>
-          </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                icon="leaderboard"
-                title="Today's Users"
-                count="2,300"
-                percentage={{
-                  color: "success",
-                  amount: "+3%",
-                  label: "than last month",
-                }}
-              />
-            </MDBox>
-          </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="success"
-                icon="store"
-                title="Revenue"
-                count="34k"
-                percentage={{
-                  color: "success",
-                  amount: "+1%",
-                  label: "than yesterday",
-                }}
-              />
-            </MDBox>
-          </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard
-                color="primary"
-                icon="person_add"
-                title="Followers"
-                count="+91"
-                percentage={{
-                  color: "success",
-                  amount: "",
-                  label: "Just updated",
-                }}
-              />
-            </MDBox>
-          </Grid>
-        </Grid>
-        <MDBox mt={4.5}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={4}>
-              <MDBox mb={3}>
-                <ReportsBarChart
-                  color="info"
-                  title="website views"
-                  description="Last Campaign Performance"
-                  date="campaign sent 2 days ago"
-                  chart={reportsBarChartData}
-                />
-              </MDBox>
-            </Grid>
-            <Grid item xs={12} md={6} lg={4}>
-              <MDBox mb={3}>
-                <ReportsLineChart
-                  color="success"
-                  title="daily sales"
-                  description={
-                    <>
-                      (<strong>+15%</strong>) increase in today sales.
-                    </>
-                  }
-                  date="updated 4 min ago"
-                  chart={sales}
-                />
-              </MDBox>
-            </Grid>
-            <Grid item xs={12} md={6} lg={4}>
-              <MDBox mb={3}>
-                <ReportsLineChart
-                  color="dark"
-                  title="completed tasks"
-                  description="Last Campaign Performance"
-                  date="just updated"
-                  chart={tasks}
-                />
-              </MDBox>
-            </Grid>
-          </Grid>
-        </MDBox>
+        <Box display="flex" alignItems="center" gap={1} p={2}>
+          <Typography variant="h6">{darkMode ? "🌙 Dark Mode" : "☀️ Light Mode"}</Typography>
+          <Switch checked={darkMode} onChange={handleDarkModeToggle} />
+        </Box>
+        {/* <Grid container spacing={3}> */}
+        {/* </Grid> */}
+        <Box display="flex" gap={2} mb={2}>
+          <MDButton
+            variant="gradient"
+            color="info"
+            onClick={() => {
+              console.log("Manual reload triggered for Prices & TRL");
+              setReloadTrigger((prev) => prev + 1);
+              setTRLReloadTrigger((prev) => prev + 1);
+            }}
+          >
+            Reload All
+          </MDButton>
+
+          {/* Clear all cache */}
+          <MDButton
+            variant="gradient"
+            color="error"
+            onClick={() => {
+              console.log("Clearing all local cache for Prices & TRL");
+              localStorage.removeItem("pricesData");
+              localStorage.removeItem("lastFingerprint");
+              localStorage.removeItem("trlData");
+              localStorage.removeItem("lastTRLFingerprint");
+              setReloadTrigger((prev) => prev + 1);
+              setTRLReloadTrigger((prev) => prev + 1);
+            }}
+          >
+            Clear Cache All
+          </MDButton>
+        </Box>
+
+        <div style={{ padding: 20 }}>
+          <CandlestickChart
+            data={data}
+            trl={trl}
+            width={1450}
+            height={2000}
+            ratio={window.devicePixelRatio || 1}
+          />
+        </div>
         <MDBox>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={8}>
-              <Projects />
-            </Grid>
-            <Grid item xs={12} md={6} lg={4}>
-              <OrdersOverview />
-            </Grid>
+          <Grid item xs={12} md={6} lg={8}>
+            <Projects />
           </Grid>
         </MDBox>
       </MDBox>
-      <Footer />
     </DashboardLayout>
   );
 }

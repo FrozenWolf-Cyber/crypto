@@ -2,6 +2,21 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { format } from "d3-format";
 import { timeFormat } from "d3-time-format";
+// @mui material components
+import Grid from "@mui/material/Grid";
+
+// Material Dashboard 2 React components
+import Card from "@mui/material/Card";
+import Divider from "@mui/material/Divider";
+import Icon from "@mui/material/Icon";
+import { useMaterialUIController } from "context";
+
+// Material Dashboard 2 React components
+import MDBox from "components/MDBox";
+import MDTypography from "components/MDTypography";
+import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
+import ReportsBarChart from "examples/Charts/BarCharts/ReportsBarChart";
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -58,6 +73,8 @@ function findClosestCandle(candles, newsDate) {
 
 const CryptoDashboard = ({ data: initialData, trl: trlData, width, ratio }) => {
   const [sellScale, setSellScale] = useState(1000); // default 99%
+  const [controller] = useMaterialUIController();
+  const { darkMode } = controller;
 
   const [visibleSeries, setVisibleSeries] = useState({
     ema12: true,
@@ -149,6 +166,7 @@ const CryptoDashboard = ({ data: initialData, trl: trlData, width, ratio }) => {
   // Prediction models
   const predictions = ["tst_1", "tst_2", "tst_3", "lightgbm_1", "lightgbm_2", "lightgbm_3"];
   const trl_predictions = ["trl_1", "trl_2", "trl_3"];
+  // Light mode colors (existing)
   const predColors = [
     "#FFC107", // Amber/Yellow
     "#1976D2", // Strong Blue
@@ -157,10 +175,27 @@ const CryptoDashboard = ({ data: initialData, trl: trlData, width, ratio }) => {
     "#7B1FA2", // Deep Purple
     "#0097A7", // Teal
   ];
+
   const trl_predcolors = [
     "#E91E63", // Pink
     "#8BC34A", // Light Green
     "#FF9800", // Orange
+  ];
+
+  // Dark mode colors (brighter for visibility)
+  const predColorsDark = [
+    "#FFEB3B", // Bright Yellow
+    "#64B5F6", // Light Blue
+    "#FF8A65", // Soft Orange
+    "#81C784", // Light Green
+    "#BA68C8", // Light Purple
+    "#4DD0E1", // Cyan/Teal
+  ];
+
+  const trl_predcolorsDark = [
+    "#F48FB1", // Soft Pink
+    "#AED581", // Lime Green
+    "#FFB74D", // Soft Orange
   ];
 
   const getPredictedPrice = (d, key) => {
@@ -272,19 +307,6 @@ const CryptoDashboard = ({ data: initialData, trl: trlData, width, ratio }) => {
   console.log("\n=== Final Profits ===, Sell Scale:", sellScale);
   console.log(profitData);
 
-  const modeldata = {
-    labels: allModels,
-    datasets: [
-      {
-        label: "Final Profit",
-        data: allModels.map((p) => profitData[p][profitData[p].length - 1].profit),
-        backgroundColor: allModels.map(
-          (p, idx) => predColors[idx] || trl_predcolors[idx % trl_predcolors.length]
-        ),
-      },
-    ],
-  };
-
   const accuracyData = {};
 
   [...predictions, ...trl_predictions].forEach((p) => {
@@ -346,8 +368,10 @@ const CryptoDashboard = ({ data: initialData, trl: trlData, width, ratio }) => {
       {
         label: "Final Profit Percentage",
         data: allModels.map((p) => profitData[p][profitData[p].length - 1].profit),
-        backgroundColor: allModels.map(
-          (p, idx) => predColors[idx] || trl_predcolors[idx % trl_predcolors.length]
+        backgroundColor: allModels.map((p, idx) =>
+          darkMode
+            ? predColorsDark[idx] || trl_predcolorsDark[idx % trl_predcolorsDark.length]
+            : predColors[idx] || trl_predcolors[idx % trl_predcolors.length]
         ),
       },
     ],
@@ -365,8 +389,10 @@ const CryptoDashboard = ({ data: initialData, trl: trlData, width, ratio }) => {
           const totalCorrect = valid.reduce((sum, d) => sum + d.correct, 0);
           return valid.length ? (totalCorrect / valid.length) * 100 : 0;
         }),
-        backgroundColor: allModels.map(
-          (p, idx) => predColors[idx] || trl_predcolors[idx % trl_predcolors.length]
+        backgroundColor: allModels.map((p, idx) =>
+          darkMode
+            ? predColorsDark[idx] || trl_predcolorsDark[idx % trl_predcolorsDark.length]
+            : predColors[idx] || trl_predcolors[idx % trl_predcolors.length]
         ),
       },
     ],
@@ -436,50 +462,63 @@ const CryptoDashboard = ({ data: initialData, trl: trlData, width, ratio }) => {
   const chartHeight = 300;
   return (
     <div>
-      <div>
-        <div style={{ display: "flex", width: "100%", gap: 20, flexWrap: "wrap" }}>
-          <div style={{ width: chartWidth, height: chartHeight }}>
-            <Bar data={profitChartData} options={profitOptions} />
-          </div>
-          <div style={{ width: chartWidth, height: chartHeight }}>
-            <Bar data={accuracyChartData} options={accuracyOptions} />
-          </div>
-          <div style={{ width: chartWidth, height: chartHeight }}>
-            <Bar data={actionChartData} options={actionChartOptions} />
-          </div>
-        </div>
-      </div>
+      <MDBox sx={{ width: "100%" }}>
+        <Grid container spacing={2}>
+          {[
+            { data: profitChartData, options: profitOptions },
+            { data: accuracyChartData, options: accuracyOptions },
+            { data: actionChartData, options: actionChartOptions },
+          ].map((chart, index) => (
+            <Grid item xs={12} md={4} key={index}>
+              <Card sx={{ p: 1, overflow: "visible", height: "auto" }}>
+                <MDBox sx={{ height: chartHeight * 0.8 }}>
+                  <Bar data={chart.data} options={chart.options} />
+                </MDBox>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </MDBox>
 
       {/* Top controls row */}
-      <div style={{ display: "flex", alignItems: "center", gap: 20, marginBottom: 10 }}>
-        {/* Slider for Sell scaling */}
+      <MDBox display="flex" alignItems="center" gap={2} mb={2}>
         {/* Sidebar toggles */}
-        <div style={{ display: "flex", alignItems: "center", gap: 15, flexWrap: "wrap" }}>
-          <label>
+        <MDBox display="flex" alignItems="center" gap={2} flexWrap="wrap">
+          <MDBox display="flex" alignItems="center" gap={1}>
             <input
               type="checkbox"
               checked={visibleSeries.ema12}
               onChange={() => toggleSeries("ema12")}
             />
-            EMA 12
-          </label>
-          <label>
+            <MDTypography variant="body2">EMA 12</MDTypography>
+          </MDBox>
+
+          <MDBox display="flex" alignItems="center" gap={1}>
             <input
               type="checkbox"
               checked={visibleSeries.ema26}
               onChange={() => toggleSeries("ema26")}
             />
-            EMA 26
-          </label>
-        </div>
-      </div>
+            <MDTypography variant="body2">EMA 26</MDTypography>
+          </MDBox>
+        </MDBox>
+      </MDBox>
 
       {/* Chart below controls, fills full width */}
-      <div style={{ width: "100%" }}>
+      <div
+        style={{
+          width: "100%",
+          backgroundColor: darkMode ? "#21284A" : "#FAFAFA", // subtle background
+          borderRadius: "8px",
+          padding: "8px",
+          overflowX: "auto",
+        }}
+      >
         {/* Chart */}
+
         <ChartCanvas
           height={height}
-          width={width - 120} // leave space for sidebar
+          width={Math.max(width - 120, 600)} // minimal width to avoid crashing
           ratio={ratio}
           margin={margin}
           data={data}
@@ -491,7 +530,13 @@ const CryptoDashboard = ({ data: initialData, trl: trlData, width, ratio }) => {
           zoomAnchor={lastVisibleItemBasedZoomAnchor}
         >
           {/* TRL Line Chart */}
-
+          {/* <rect
+            x={0}
+            y={0}
+            width={width - 120}
+            height={height}
+            fill={darkMode ? "#21284A" : "#FAFAFA"}
+          /> */}
           {/* Volume */}
           <Chart
             id={1}
@@ -500,9 +545,29 @@ const CryptoDashboard = ({ data: initialData, trl: trlData, width, ratio }) => {
             yExtents={(d) => d.volume}
           >
             <BarSeries yAccessor={(d) => d.volume} fill={volumeColor} />
-            <YAxis axisAt="right" orient="right" ticks={5} />
-            <XAxis showGridLines />
-            <MouseCoordinateY rectWidth={margin.right} displayFormat={pricesDisplayFormat} />
+            <YAxis
+              strokeStyle={darkMode ? "#FFFFFF" : "#000000"}
+              stroke={darkMode ? "#FFFFFF" : "#000000"}
+              gridLinesStrokeStyle={darkMode ? "rgba(255, 255, 255, 0.2)" : "rgba(0,0,0,0.1)"}
+              tickStroke={darkMode ? "#FFFFFF" : "#000000"}
+              tickLabelFill={darkMode ? "#FFFFFF" : "#000000"}
+              axisAt="right"
+              orient="right"
+              ticks={5}
+            />
+            <XAxis
+              strokeStyle={darkMode ? "#FFFFFF" : "#000000"}
+              showGridLines
+              gridLinesStrokeStyle={darkMode ? "rgba(255, 255, 255, 0.2)" : "rgba(0,0,0,0.1)"}
+              tickLabelFill={darkMode ? "#FFFFFF" : "#000000"}
+              stroke={darkMode ? "#FFFFFF" : "#000000"} // font color
+              tickStroke={darkMode ? "#FFFFFF" : "#000000"} // tick label color
+            />
+            <MouseCoordinateY
+              textFill={darkMode ? "#FFFFFF" : "#000000"}
+              rectWidth={margin.right}
+              displayFormat={pricesDisplayFormat}
+            />
           </Chart>
 
           {/* Main Candlestick + EMA + Predictions */}
@@ -512,8 +577,24 @@ const CryptoDashboard = ({ data: initialData, trl: trlData, width, ratio }) => {
             origin={() => candleChartOrigin}
             yExtents={(d) => [d.low, d.high, d.ema12, d.ema26]}
           >
-            <XAxis showGridLines showTickLabel={false} />
-            <YAxis showGridLines tickFormat={pricesDisplayFormat} />
+            <XAxis
+              strokeStyle={darkMode ? "#FFFFFF" : "#000000"}
+              gridLinesStrokeStyle={darkMode ? "rgba(255, 255, 255, 0.2)" : "rgba(0,0,0,0.1)"}
+              showGridLines
+              showTickLabel={false}
+              stroke={darkMode ? "#FFFFFF" : "#000000"} // font color
+              tickLabelFill={darkMode ? "#FFFFFF" : "#000000"}
+              tickStroke={darkMode ? "#FFFFFF" : "#000000"} // tick label color
+            />
+            <YAxis
+              strokeStyle={darkMode ? "#FFFFFF" : "#000000"}
+              stroke={darkMode ? "#FFFFFF" : "#000000"}
+              gridLinesStrokeStyle={darkMode ? "rgba(255, 255, 255, 0.2)" : "rgba(0,0,0,0.1)"}
+              tickLabelFill={darkMode ? "#FFFFFF" : "#000000"}
+              tickStroke={darkMode ? "#FFFFFF" : "#000000"}
+              showGridLines
+              tickFormat={pricesDisplayFormat}
+            />
             <CandlestickSeries fill={openCloseColor} stroke={openCloseColor} />
             {visibleSeries.ema26 && (
               <LineSeries
@@ -536,7 +617,12 @@ const CryptoDashboard = ({ data: initialData, trl: trlData, width, ratio }) => {
               <CurrentCoordinate yAccessor={ema12.accessor()} fill={ema12.stroke()} />
             )}
 
-            <MouseCoordinateY rectWidth={margin.right} displayFormat={pricesDisplayFormat} />
+            <MouseCoordinateY
+              textFill={darkMode ? "#FFFFFF" : "#000000"}
+              tickLabelFill={darkMode ? "#FFFFFF" : "#000000"}
+              rectWidth={margin.right}
+              displayFormat={pricesDisplayFormat}
+            />
             <EdgeIndicator
               itemType="last"
               rectWidth={margin.right}
@@ -563,7 +649,11 @@ const CryptoDashboard = ({ data: initialData, trl: trlData, width, ratio }) => {
               ]}
             />
 
-            <OHLCTooltip origin={[8, 16]} />
+            <OHLCTooltip
+              origin={[8, 46]}
+              labelFill={darkMode ? "#FFFFFF" : "#000000"}
+              textFill={darkMode ? "#FFFFFF" : "#000000"}
+            />
             <ZoomButtons />
           </Chart>
 
@@ -575,9 +665,29 @@ const CryptoDashboard = ({ data: initialData, trl: trlData, width, ratio }) => {
             origin={elderRayOrigin}
             padding={{ top: 8, bottom: 8 }}
           >
-            <XAxis showGridLines />
-            <YAxis ticks={4} tickFormat={pricesDisplayFormat} />
-            <MouseCoordinateY rectWidth={margin.right} displayFormat={pricesDisplayFormat} />
+            <XAxis
+              strokeStyle={darkMode ? "#FFFFFF" : "#000000"}
+              showGridLines
+              gridLinesStrokeStyle={darkMode ? "rgba(255, 255, 255, 0.2)" : "rgba(0,0,0,0.1)"}
+              stroke={darkMode ? "#FFFFFF" : "#000000"} // font color
+              tickLabelFill={darkMode ? "#FFFFFF" : "#000000"}
+              tickStroke={darkMode ? "#FFFFFF" : "#000000"} // tick label color
+            />
+            <YAxis
+              strokeStyle={darkMode ? "#FFFFFF" : "#000000"}
+              stroke={darkMode ? "#FFFFFF" : "#000000"}
+              gridLinesStrokeStyle={darkMode ? "rgba(255, 255, 255, 0.2)" : "rgba(0,0,0,0.1)"}
+              tickLabelFill={darkMode ? "#FFFFFF" : "#000000"}
+              tickStroke={darkMode ? "#FFFFFF" : "#000000"}
+              ticks={4}
+              tickFormat={pricesDisplayFormat}
+            />
+            <MouseCoordinateY
+              textFill={darkMode ? "#FFFFFF" : "#000000"}
+              tickLabelFill={darkMode ? "#FFFFFF" : "#000000"}
+              rectWidth={margin.right}
+              displayFormat={pricesDisplayFormat}
+            />
             <ElderRaySeries yAccessor={elder.accessor()} />
           </Chart>
 
@@ -591,13 +701,28 @@ const CryptoDashboard = ({ data: initialData, trl: trlData, width, ratio }) => {
             yExtents={(d) => [-1, 1]}
             padding={{ top: 65, bottom: 5 }}
           >
-            <XAxis showGridLines />
-            <YAxis ticks={4} />
+            <XAxis
+              strokeStyle={darkMode ? "#FFFFFF" : "#000000"}
+              showGridLines
+              gridLinesStrokeStyle={darkMode ? "rgba(255, 255, 255, 0.2)" : "rgba(0,0,0,0.1)"}
+              stroke={darkMode ? "#FFFFFF" : "#000000"} // font color
+              tickLabelFill={darkMode ? "#FFFFFF" : "#000000"}
+              tickStroke={darkMode ? "#FFFFFF" : "#000000"} // tick label color
+            />
+            <YAxis
+              strokeStyle={darkMode ? "#FFFFFF" : "#000000"}
+              stroke={darkMode ? "#FFFFFF" : "#000000"}
+              gridLinesStrokeStyle={darkMode ? "rgba(255, 255, 255, 0.2)" : "rgba(0,0,0,0.1)"}
+              tickLabelFill={darkMode ? "#FFFFFF" : "#000000"}
+              tickStroke={darkMode ? "#FFFFFF" : "#000000"}
+              ticks={4}
+            />
 
             {[...predictions, ...trl_predictions].map((p, idx) =>
               visibleSeries[p] ? (
                 <BarSeries
                   key={p}
+                  tickLabelFill={darkMode ? "#FFFFFF" : "#000000"}
                   strokeStyle={strokeStyles[idx % strokeStyles.length].strokeStyle}
                   strokeDasharray={strokeStyles[idx % strokeStyles.length].strokeDasharray}
                   baseAt={(xScale, yScale) => yScale(0)}
@@ -613,7 +738,12 @@ const CryptoDashboard = ({ data: initialData, trl: trlData, width, ratio }) => {
               ) : null
             )}
 
-            <MouseCoordinateY rectWidth={margin.right} displayFormat={(val) => val.toFixed(2)} />
+            <MouseCoordinateY
+              textFill={darkMode ? "#FFFFFF" : "#000000"}
+              rectWidth={margin.right}
+              displayFormat={(val) => val.toFixed(2)}
+              tickLabelFill={darkMode ? "#FFFFFF" : "#000000"}
+            />
 
             {[...predictions, ...trl_predictions].map((p, idx) => (
               <SingleValueTooltip
@@ -626,13 +756,26 @@ const CryptoDashboard = ({ data: initialData, trl: trlData, width, ratio }) => {
                 yLabel={`${p} Confidence`}
                 yDisplayFormat={(val) => (val == null || isNaN(val) ? "" : val.toFixed(2))}
                 origin={(w, h) => [
-                  200 + idx * 150, // start 200px from left, then 100px between items
+                  idx * 150, // start 200px from left, then 100px between items
                   60, // fixed distance from top
                 ]}
-                labelFill={predColors[idx] || trl_predcolors[idx % trl_predcolors.length]}
+                labelFill={
+                  darkMode
+                    ? predColorsDark[idx] || trl_predcolorsDark[idx % trl_predcolorsDark.length]
+                    : predColors[idx] || trl_predcolors[idx % trl_predcolors.length]
+                }
+                valueFill={
+                  darkMode
+                    ? predColorsDark[idx] || trl_predcolorsDark[idx % trl_predcolorsDark.length]
+                    : predColors[idx] || trl_predcolors[idx % trl_predcolors.length]
+                }
               />
             ))}
-            <OHLCTooltip origin={[8, 46]} />
+            <OHLCTooltip
+              origin={[8, 46]}
+              labelFill={darkMode ? "#FFFFFF" : "#000000"}
+              textFill={darkMode ? "#FFFFFF" : "#000000"}
+            />
             <ZoomButtons />
           </Chart>
 
@@ -650,17 +793,40 @@ const CryptoDashboard = ({ data: initialData, trl: trlData, width, ratio }) => {
             }}
             padding={{ top: 70, bottom: 40 }}
           >
-            <XAxis showGridLines />
-            <YAxis ticks={4} />
+            <XAxis
+              strokeStyle={darkMode ? "#FFFFFF" : "#000000"}
+              showGridLines
+              gridLinesStrokeStyle={darkMode ? "rgba(255, 255, 255, 0.2)" : "rgba(0,0,0,0.1)"}
+              tickLabelFill={darkMode ? "#FFFFFF" : "#000000"}
+              stroke={darkMode ? "#FFFFFF" : "#000000"} // font color
+              tickStroke={darkMode ? "#FFFFFF" : "#000000"} // tick label color
+            />
+            <YAxis
+              ticks={4}
+              tickLabelFill={darkMode ? "#FFFFFF" : "#000000"}
+              gridLinesStrokeStyle={darkMode ? "rgba(255, 255, 255, 0.2)" : "rgba(0,0,0,0.1)"}
+              strokeStyle={darkMode ? "#FFFFFF" : "#000000"}
+              stroke={darkMode ? "#FFFFFF" : "#000000"}
+              tickStroke={darkMode ? "#FFFFFF" : "#000000"}
+            />
 
-            <MouseCoordinateY rectWidth={margin.right} displayFormat={(val) => val.toFixed(2)} />
+            <MouseCoordinateY
+              tickLabelFill={darkMode ? "#FFFFFF" : "#000000"}
+              textFill={darkMode ? "#FFFFFF" : "#000000"}
+              rectWidth={margin.right}
+              displayFormat={(val) => val.toFixed(2)}
+            />
 
             {[...predictions, ...trl_predictions].map((p, idx) =>
               visibleSeries[p] ? (
                 <CurrentCoordinate
                   key={p + "_profit_coord"}
                   yAccessor={(d) => profitData[p].find((x) => x.open_time === d.open_time).profit}
-                  fillStyle={predColors[idx] || trl_predcolors[idx % trl_predcolors.length]}
+                  fillStyle={
+                    darkMode
+                      ? predColorsDark[idx] || trl_predcolorsDark[idx % trl_predcolorsDark.length]
+                      : predColors[idx] || trl_predcolors[idx % trl_predcolors.length]
+                  }
                 />
               ) : null
             )}
@@ -670,7 +836,11 @@ const CryptoDashboard = ({ data: initialData, trl: trlData, width, ratio }) => {
                 <LineSeries
                   key={p + "_profit"}
                   yAccessor={(d) => profitData[p].find((x) => x.open_time === d.open_time).profit}
-                  strokeStyle={predColors[idx] || trl_predcolors[idx % trl_predcolors.length]}
+                  strokeStyle={
+                    darkMode
+                      ? predColorsDark[idx] || trl_predcolorsDark[idx % trl_predcolorsDark.length]
+                      : predColors[idx] || trl_predcolors[idx % trl_predcolors.length]
+                  }
                   highlightOnHover={true}
                 />
               ) : null
@@ -680,54 +850,66 @@ const CryptoDashboard = ({ data: initialData, trl: trlData, width, ratio }) => {
               visibleSeries[p] ? (
                 <SingleValueTooltip
                   key={p + "_tooltip"}
-                  yLabel={`${p} Profit Percentage`}
+                  yLabel={`${p} Profit %`}
                   yAccessor={(d) => profitData[p].find((x) => x.open_time === d.open_time).profit}
                   yDisplayFormat={(val) => val.toFixed(2)}
-                  labelFill={predColors[idx] || trl_predcolors[idx % trl_predcolors.length]}
-                  origin={(w, h) => [-300 + idx * 200, 60]} // adjust tooltip position
+                  origin={(w, h) => [0 + idx * 140, 60]} // adjust tooltip position
+                  labelFill={
+                    darkMode
+                      ? predColorsDark[idx] || trl_predcolorsDark[idx % trl_predcolorsDark.length]
+                      : predColors[idx] || trl_predcolors[idx % trl_predcolors.length]
+                  }
+                  valueFill={
+                    darkMode
+                      ? predColorsDark[idx] || trl_predcolorsDark[idx % trl_predcolorsDark.length]
+                      : predColors[idx] || trl_predcolors[idx % trl_predcolors.length]
+                  }
                 />
               ) : null
             )}
 
-            <OHLCTooltip origin={[8, 46]} />
+            <OHLCTooltip
+              origin={[8, 46]}
+              labelFill={darkMode ? "#FFFFFF" : "#000000"}
+              textFill={darkMode ? "#FFFFFF" : "#000000"}
+            />
           </Chart>
 
           <CrossHairCursor />
         </ChartCanvas>
       </div>
 
-      <div style={{ display: "flex", alignItems: "center", gap: 20, marginBottom: 10 }}>
+      <MDBox display="flex" alignItems="center" gap={2} mb={2}>
         {/* Slider for Sell scaling */}
-        <div>
-          <label>
-            Sell Scale: {sellScale.toFixed(2)}
-            <input
-              type="range"
-              min="1"
-              max="10000"
-              step="100"
-              value={sellScale}
-              onChange={(e) => setSellScale(parseFloat(e.target.value))}
-            />
-          </label>
-        </div>
+        <MDBox>
+          <MDTypography variant="body2">Sell Scale: {sellScale.toFixed(2)}</MDTypography>
+          <input
+            type="range"
+            min="1"
+            max="10000"
+            step="100"
+            value={sellScale}
+            onChange={(e) => setSellScale(parseFloat(e.target.value))}
+          />
+        </MDBox>
 
         {/* Sidebar toggles */}
-        <div style={{ display: "flex", alignItems: "center", gap: 15, flexWrap: "wrap" }}>
+        <MDBox display="flex" alignItems="center" gap={2} flexWrap="wrap">
           {predictions.map((p) => (
-            <label key={p}>
+            <MDBox key={p} display="flex" alignItems="center" gap={1}>
               <input type="checkbox" checked={visibleSeries[p]} onChange={() => toggleSeries(p)} />
-              {p}
-            </label>
+              <MDTypography variant="body2">{p}</MDTypography>
+            </MDBox>
           ))}
+
           {trl_predictions.map((p) => (
-            <label key={p}>
+            <MDBox key={p} display="flex" alignItems="center" gap={1}>
               <input type="checkbox" checked={visibleSeries[p]} onChange={() => toggleSeries(p)} />
-              {p}
-            </label>
+              <MDTypography variant="body2">{p}</MDTypography>
+            </MDBox>
           ))}
-        </div>
-      </div>
+        </MDBox>
+      </MDBox>
     </div>
   );
 };
