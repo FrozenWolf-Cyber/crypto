@@ -131,10 +131,17 @@ const DagViewer = () => {
 
       const lastRuns = dedupeTasksByCreatedAtRange(getLastNDagCycles(res.data, DEFAULT_LAST_N));
 
-      const runsList = Object.entries(lastRuns).map(([runId, tasks]) => ({
-        runId,
-        tasks,
-      }));
+      const runsList = Object.entries(lastRuns)
+        .map(([runId, tasks]) => ({
+          runId,
+          tasks,
+          // Take the latest start_time in the run
+          latestTime: tasks.reduce(
+            (max, t) => (new Date(t.start_time) > max ? new Date(t.start_time) : max),
+            new Date(0)
+          ),
+        }))
+        .sort((a, b) => b.latestTime - a.latestTime); // latest first
 
       setDagRuns(runsList);
       if (runsList.length > 0) setSelectedRun(runsList[0]);

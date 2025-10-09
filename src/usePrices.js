@@ -5,7 +5,7 @@ const BASE_URL = "https://crypto-backend.gokuladethya.uk";
 // 6 months ago helper
 function sixMonthsAgo() {
   const d = new Date();
-  d.setMonth(d.getMonth() - 6);
+  d.setMonth(d.getMonth() - 3);
   return d.toISOString();
 }
 
@@ -43,7 +43,7 @@ async function fetchFingerprint() {
 async function fetchPrices(start, end) {
   try {
     console.log(`Fetching prices from ${start} to ${end}`);
-    const res = await fetch(`${BASE_URL}/prices/btcusdt?start=${start}&end=${end}&interval=1h`);
+    const res = await fetch(`${BASE_URL}/prices/btcusdt?start=${start}&end=${end}&interval=6h`);
     const text = await res.text();
     console.log("Raw price response:", text);
     const json = JSON.parse(text);

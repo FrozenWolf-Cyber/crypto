@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/crypto/static/css/main.d554ed44.css",
+    "main.js": "/crypto/static/js/main.913c8b65.js",
+    "static/media/bg.jpg": "/crypto/static/media/bg.18d824e6369c5707f032.jpg",
+    "static/media/MLflow-logo.png": "/crypto/static/media/MLflow-logo.ad57bda1458337d6138d.png",
+    "static/media/logo-ct-dark.png": "/crypto/static/media/logo-ct-dark.855503420e1cb488caf2.png",
+    "static/media/logo-ct.png": "/crypto/static/media/logo-ct.855503420e1cb488caf2.png",
+    "static/media/grafana_logo.png": "/crypto/static/media/grafana_logo.6c8f5171d06138f2daa4.png",
+    "static/media/mlflow_logo.png": "/crypto/static/media/mlflow_logo.ad373f8dc36625e1892f.png",
+    "static/media/grafana-logo.png": "/crypto/static/media/grafana-logo.cdb3c3320f4e13a98db6.png",
+    "static/media/logo-slack.svg": "/crypto/static/media/logo-slack.7c47c5aa474b5c4fb39fcf05ffb8e4e7.svg",
+    "static/media/logo-xd.svg": "/crypto/static/media/logo-xd.6e37886f94dba0c2967ece68a152e30c.svg",
+    "static/media/logo-invision.svg": "/crypto/static/media/logo-invision.a1062115730dcd10e1c4f4abe7b9ab33.svg",
+    "static/media/logo-spotify.svg": "/crypto/static/media/logo-spotify.e83cf56c9d99a1fdf59e8deb58bbe470.svg",
+    "static/media/logo-jira.svg": "/crypto/static/media/logo-jira.c19fd4e416babfbd0fdb0a794188c601.svg",
+    "static/media/logo-atlassian.svg": "/crypto/static/media/logo-atlassian.f2b0e8570a4b4ce768854ff3dad1a6e1.svg",
+    "index.html": "/crypto/index.html",
+    "main.d554ed44.css.map": "/crypto/static/css/main.d554ed44.css.map",
+    "main.913c8b65.js.map": "/crypto/static/js/main.913c8b65.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d554ed44.css",
+    "static/js/main.913c8b65.js"
+  ]
+}
