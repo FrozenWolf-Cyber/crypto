@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/crypto/static/css/main.d554ed44.css",
-    "main.js": "/crypto/static/js/main.5b0f201d.js",
+    "main.js": "/crypto/static/js/main.7751b64d.js",
     "static/media/bg.jpg": "/crypto/static/media/bg.18d824e6369c5707f032.jpg",
     "static/media/MLflow-logo.png": "/crypto/static/media/MLflow-logo.ad57bda1458337d6138d.png",
     "static/media/logo-ct-dark.png": "/crypto/static/media/logo-ct-dark.855503420e1cb488caf2.png",
@@ -17,10 +17,10 @@
     "static/media/logo-atlassian.svg": "/crypto/static/media/logo-atlassian.f2b0e8570a4b4ce768854ff3dad1a6e1.svg",
     "index.html": "/crypto/index.html",
     "main.d554ed44.css.map": "/crypto/static/css/main.d554ed44.css.map",
-    "main.5b0f201d.js.map": "/crypto/static/js/main.5b0f201d.js.map"
+    "main.7751b64d.js.map": "/crypto/static/js/main.7751b64d.js.map"
   },
   "entrypoints": [
     "static/css/main.d554ed44.css",
-    "static/js/main.5b0f201d.js"
+    "static/js/main.7751b64d.js"
   ]
 }
