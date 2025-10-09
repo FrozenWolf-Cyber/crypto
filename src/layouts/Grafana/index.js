@@ -16,18 +16,14 @@ function GrafanaGate() {
 
   // Replace with your actual Grafana snapshot URLs
   const grafanaSnapshots = [
-    "https://snapshot1.url",
-    "https://snapshot2.url",
-    "https://snapshot3.url",
-    "https://snapshot4.url",
-    "https://snapshot5.url",
-    "https://snapshot6.url",
-    "https://snapshot7.url",
-    "https://snapshot8.url",
-    "https://snapshot9.url",
-    "https://snapshot10.url",
-    "https://snapshot11.url",
-    "https://snapshot12.url",
+    "https://snapshots.raintank.io/dashboard/snapshot/4wrs6xoOx5ZjUvOsARZkxMF5NYGfZMif?orgId=0&refresh=10s&from=1759905856072&to=1759992256072",
+    "https://snapshots.raintank.io/dashboard/snapshot/UPFKszZlZlTa4kVVc8Uo9W35dfmt9yRy?orgId=0&refresh=10s&from=1759905916075&to=1759992316075",
+    "https://snapshots.raintank.io/dashboard/snapshot/pfVOidE4rxCwGeFpiIkg76KGmh4dXB5I?orgId=0&refresh=10s&from=1759988740459&to=1759992340459",
+    "https://snapshots.raintank.io/dashboard/snapshot/l6AKeGlpRKqhPWyysuyo0KHnVJnHztJ5?orgId=0&refresh=10s&from=1759988760460&to=1759992360460",
+    "https://snapshots.raintank.io/dashboard/snapshot/LaIGUDkq5aSZ84GapWLhGNV9zbcQx6P2?orgId=0&refresh=10s&from=1759988790460&to=1759992390460",
+    "https://snapshots.raintank.io/dashboard/snapshot/14wJUSjB1MCjH9jMaMgAtVhhAeb0NenE?orgId=0&refresh=10s&from=1759988876594&to=1759992476594",
+    "https://snapshots.raintank.io/dashboard/snapshot/4bPDLTcMiEt9sEFY0phDUz7BHWc8F3y2?orgId=0&refresh=10s&from=1759988918484&to=1759992518484",
+    "https://snapshots.raintank.io/dashboard/snapshot/gmwjOgscjxrBp4LJbpz6B7wQsOx3IG6u?orgId=0&refresh=5s&from=1759989006729&to=1759992606729",
   ];
 
   return (

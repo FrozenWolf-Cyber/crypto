@@ -1,6 +1,7 @@
 {
   "name": "Crypto-MlOps",
   "private": true,
+  "homepage": "https://FrozenWolf-Cyber.github.io/crypto",
   "author": "Gokul Adethya",
   "description": "Frontend Dashboard for Crypto MLOps",
   "dependencies": {
