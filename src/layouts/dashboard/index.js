@@ -128,7 +128,12 @@ function Dashboard() {
             Clear Cache All
           </MDButton>
         </Box>
-
+        <Typography variant="h4" gutterBottom>
+          Price Candlestick Chart (Last 6 Months)
+        </Typography>
+        <Typography variant="body2" gutterBottom>
+          Please wait for data to load. This may take a few moments depending on the amount of data.
+        </Typography>
         <div style={{ padding: 20 }}>
           <CandlestickChart
             data={data}
