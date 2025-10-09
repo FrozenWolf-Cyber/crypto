@@ -8,6 +8,7 @@ function WandB() {
 
   return (
     <DashboardLayout>
+      <DashboardNavbar />
       <MDBox
         py={3}
         px={3}

@@ -91,6 +91,7 @@ function Dashboard() {
 
   return (
     <DashboardLayout>
+      <DashboardNavbar />
       <MDBox py={3}>
         <Box display="flex" alignItems="center" gap={1} p={2}>
           <Typography variant="h6">{darkMode ? "🌙 Dark Mode" : "☀️ Light Mode"}</Typography>

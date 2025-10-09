@@ -30,6 +30,7 @@ function MLflowGate() {
       }}
     >
       <DashboardLayout>
+        <DashboardNavbar />
         <MDBox
           display="flex"
           flexDirection="column"
