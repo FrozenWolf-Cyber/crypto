@@ -103,8 +103,8 @@ export function useTRL(reloadTrigger = 0) {
     // Initial fetch
     updateData();
 
-    // Poll every 1 minute
-    intervalRef.current = setInterval(updateData, 60 * 1000);
+    // Poll every 30 minute
+    intervalRef.current = setInterval(updateData, 60 * 30 * 1000);
 
     return () => {
       isMounted = false;

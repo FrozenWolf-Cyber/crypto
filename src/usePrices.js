@@ -43,7 +43,7 @@ async function fetchFingerprint() {
 async function fetchPrices(start, end) {
   try {
     console.log(`Fetching prices from ${start} to ${end}`);
-    const res = await fetch(`${BASE_URL}/prices/btcusdt?start=${start}&end=${end}&interval=6h`);
+    const res = await fetch(`${BASE_URL}/prices/btcusdt?start=${start}&end=${end}&interval=1h`);
     const text = await res.text();
     console.log("Raw price response:", text);
     const json = JSON.parse(text);
@@ -135,8 +135,8 @@ export function usePrices(reloadTrigger = 0) {
     // Initial fetch
     updateData();
 
-    // Poll every 1 minute
-    intervalRef.current = setInterval(updateData, 60 * 1000);
+    // Poll every 1 hour
+    intervalRef.current = setInterval(updateData, 60 * 60 * 1000);
 
     return () => {
       isMounted = false;
