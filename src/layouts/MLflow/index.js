@@ -13,6 +13,7 @@ import { useMaterialUIController } from "context";
 import mlflowLogo from "assets/images/logos/MLflow-logo.png"; // relative to src
 import bg from "assets/images/bg.jpg";
 import Box from "@mui/material/Box";
+import DarkModeToggle from "layouts/dashboard/components/darkmode";
 function MLflowGate() {
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
@@ -31,6 +32,7 @@ function MLflowGate() {
     >
       <DashboardLayout>
         <DashboardNavbar />
+        <DarkModeToggle />
         <MDBox
           display="flex"
           flexDirection="column"

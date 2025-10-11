@@ -49,6 +49,7 @@ import InsightsIcon from "@mui/icons-material/Insights";
 import GrafanaLogo from "assets/images/grafana_logo.png";
 import WandbLogo from "assets/images/wandb_logo.png";
 import MLflowlogo from "assets/images/mlflow_logo.png";
+import HowItWorks from "layouts/howitworks";
 // @mui icons
 import Icon from "@mui/material/Icon";
 
@@ -92,6 +93,14 @@ const routes = [
     icon: <img src={GrafanaLogo} alt="Grafana" style={{ width: 20, height: 20 }} />,
     route: "/grafana",
     component: <GrafanaGate />,
+  },
+  {
+    type: "collapse",
+    name: "How It Works",
+    key: "howitworks",
+    icon: <Icon fontSize="small">help</Icon>,
+    route: "/howitworks",
+    component: <HowItWorks />,
   },
 
   // {
