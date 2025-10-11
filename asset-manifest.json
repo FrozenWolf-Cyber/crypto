@@ -1,8 +1,29 @@
 {
   "files": {
-    "main.css": "/crypto/static/css/main.d554ed44.css",
-    "main.js": "/crypto/static/js/main.d1d10105.js",
+    "main.css": "/crypto/static/css/main.59933fce.css",
+    "main.js": "/crypto/static/js/main.9c91c270.js",
+    "static/media/arch.jpg": "/crypto/static/media/arch.a13e852f075e329ec540.jpg",
+    "static/media/10.png": "/crypto/static/media/10.652c8358dafad6a168c0.png",
+    "static/media/8.png": "/crypto/static/media/8.288dcb9e5f0788276364.png",
+    "static/media/4.png": "/crypto/static/media/4.5758a1c7a2a58dac44f2.png",
+    "static/media/12.png": "/crypto/static/media/12.c84b38d40b8a59e44b8e.png",
+    "static/media/9.png": "/crypto/static/media/9.0e5c0900a8b96435ea18.png",
+    "static/media/3.png": "/crypto/static/media/3.a1ad95feea692ec89bc1.png",
+    "static/media/1.png": "/crypto/static/media/1.51a79ef9d06a2d941a62.png",
+    "static/media/11.png": "/crypto/static/media/11.517dc00d5080271bfd5c.png",
+    "static/media/17.png": "/crypto/static/media/17.487fdad122318575ee89.png",
+    "static/media/16.png": "/crypto/static/media/16.7fac264076f609000b07.png",
+    "static/media/2.png": "/crypto/static/media/2.dcf914e5f5cb223cf865.png",
+    "static/media/6.png": "/crypto/static/media/6.35f7cc5e8663c4305eba.png",
+    "static/media/14.png": "/crypto/static/media/14.0ffcfc3e349c4b359ef5.png",
+    "static/media/5.png": "/crypto/static/media/5.f08dd728b5cc8c406e30.png",
+    "static/media/15.png": "/crypto/static/media/15.d41910782339f2214909.png",
+    "static/media/13.png": "/crypto/static/media/13.03b1cefc50a4fea7e51e.png",
+    "static/media/7.png": "/crypto/static/media/7.8453a31a3db5f1a1e198.png",
+    "static/media/bootstrap-icons.woff?": "/crypto/static/media/bootstrap-icons.1295669cd4e305c97f2c.woff",
     "static/media/bg.jpg": "/crypto/static/media/bg.18d824e6369c5707f032.jpg",
+    "static/media/k8.png": "/crypto/static/media/k8.570f9d631251c1e09fee.png",
+    "static/media/bootstrap-icons.woff2?": "/crypto/static/media/bootstrap-icons.92ea18a81d737146ff04.woff2",
     "static/media/MLflow-logo.png": "/crypto/static/media/MLflow-logo.ad57bda1458337d6138d.png",
     "static/media/logo-ct-dark.png": "/crypto/static/media/logo-ct-dark.855503420e1cb488caf2.png",
     "static/media/logo-ct.png": "/crypto/static/media/logo-ct.855503420e1cb488caf2.png",
@@ -16,11 +37,11 @@
     "static/media/logo-jira.svg": "/crypto/static/media/logo-jira.c19fd4e416babfbd0fdb0a794188c601.svg",
     "static/media/logo-atlassian.svg": "/crypto/static/media/logo-atlassian.f2b0e8570a4b4ce768854ff3dad1a6e1.svg",
     "index.html": "/crypto/index.html",
-    "main.d554ed44.css.map": "/crypto/static/css/main.d554ed44.css.map",
-    "main.d1d10105.js.map": "/crypto/static/js/main.d1d10105.js.map"
+    "main.59933fce.css.map": "/crypto/static/css/main.59933fce.css.map",
+    "main.9c91c270.js.map": "/crypto/static/js/main.9c91c270.js.map"
   },
   "entrypoints": [
-    "static/css/main.d554ed44.css",
-    "static/js/main.d1d10105.js"
+    "static/css/main.59933fce.css",
+    "static/js/main.9c91c270.js"
   ]
 }
