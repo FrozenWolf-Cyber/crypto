@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/crypto/static/css/main.59933fce.css",
-    "main.js": "/crypto/static/js/main.b8f7a43b.js",
+    "main.js": "/crypto/static/js/main.f7f7b96d.js",
     "static/media/arch.jpg": "/crypto/static/media/arch.2264afa0829f58f978e4.jpg",
     "static/media/10.png": "/crypto/static/media/10.652c8358dafad6a168c0.png",
     "static/media/8.png": "/crypto/static/media/8.288dcb9e5f0788276364.png",
@@ -38,10 +38,10 @@
     "static/media/logo-atlassian.svg": "/crypto/static/media/logo-atlassian.f2b0e8570a4b4ce768854ff3dad1a6e1.svg",
     "index.html": "/crypto/index.html",
     "main.59933fce.css.map": "/crypto/static/css/main.59933fce.css.map",
-    "main.b8f7a43b.js.map": "/crypto/static/js/main.b8f7a43b.js.map"
+    "main.f7f7b96d.js.map": "/crypto/static/js/main.f7f7b96d.js.map"
   },
   "entrypoints": [
     "static/css/main.59933fce.css",
-    "static/js/main.b8f7a43b.js"
+    "static/js/main.f7f7b96d.js"
   ]
 }
