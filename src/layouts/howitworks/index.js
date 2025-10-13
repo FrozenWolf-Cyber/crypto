@@ -128,6 +128,92 @@ const HowItWorks = () => {
             </Box>
           </Collapse>
         </Box>
+        {/* ===== Idea Overview Section ===== */}
+        <div className="container mb-5">
+          <Card
+            className={`shadow-lg border-0 ${
+              darkMode ? "bg-dark text-light" : "bg-light text-dark"
+            }`}
+          >
+            <CardContent>
+              <Typography variant="h4" gutterBottom className="fw-bold text-center mb-4">
+                Idea Overview
+              </Typography>
+
+              <Typography variant="body1" paragraph>
+                We scrape <strong>article data</strong>, <strong>Bitcoin prices</strong>, and
+                additional market statistics at regular intervals. The pipeline trains three
+                distinct model types:
+              </Typography>
+              <ul>
+                <li>
+                  <strong>TRL (LLM classifier)</strong> — trained using GRPO for sentiment and
+                  article classification.
+                </li>
+                <li>
+                  <strong>LightGBM</strong> — for price-based numerical features.
+                </li>
+                <li>
+                  <strong>Time Series Transformer</strong> — for temporal price movement prediction.
+                </li>
+              </ul>
+
+              <Typography variant="body1" paragraph>
+                Each model maintains <strong>three active versions</strong> to track distribution
+                and performance shifts. All nine model predictions are updated live and stored in
+                <strong> PostgreSQL</strong> for visualization on the dashboard.
+              </Typography>
+
+              <Typography variant="body1" paragraph>
+                To ensure <strong>minimum downtime</strong> and <strong>scalable deployment</strong>
+                , model updates occur asynchronously. For example, if LightGBM finishes training
+                early, it can be deployed independently without affecting others. Old predictions
+                are reconciled to maintain inference consistency between versions.
+              </Typography>
+
+              <Typography variant="body1" paragraph>
+                The system uses <strong>Kafka</strong> for producer-consumer messaging,
+                <strong> S3-hosted MLflow</strong> for versioning and hot-swapping, and
+                <strong> Grafana/Prometheus</strong> for real-time monitoring. All APIs are secured
+                behind an <strong>Nginx Ingress Reverse Proxy</strong> and orchestrated via{" "}
+                <strong>Airflow</strong>.
+              </Typography>
+
+              <Typography variant="h5" gutterBottom className="fw-bold mt-4">
+                Why Kubernetes?
+              </Typography>
+
+              <Typography variant="body1" paragraph>
+                Primarily, I wanted hands-on learning with Kubernetes and dynamic GPU scheduling. My
+                initial plan was to connect <strong>Vast.ai remote nodes</strong> to the cluster and
+                spin GPU training pods using the <strong>Kubernetes Operator</strong>. However, this
+                approach had challenges:
+              </Typography>
+
+              <ul>
+                <li>
+                  Requires <strong>VMs</strong> instead of lightweight instances, leading to slow
+                  startup, instability, and high cost.
+                </li>
+                <li>
+                  <strong>NVIDIA GPU plugin</strong> scheduling is supported only for A/H-series
+                  GPUs, not affordable consumer GPUs.
+                </li>
+                <li>Third-party GPU schedulers were unstable and incompatible.</li>
+                <li>
+                  Alternative setup via <strong>Airflow custom scheduling</strong> (bypassing
+                  Kubernetes GPU resources) worked but remained <strong>cost-inefficient</strong>.
+                </li>
+              </ul>
+
+              <Typography variant="body1" paragraph>
+                Despite these challenges, the architecture provides an effective sandbox for
+                learning scalable MLOps design and automated model lifecycle management.
+              </Typography>
+            </CardContent>
+          </Card>
+        </div>
+
         {/* ===== Demo Section (Carousel) ===== */}
         <div className="container mb-5">
           <Typography variant="h4" gutterBottom textAlign="center" mb={4}>
