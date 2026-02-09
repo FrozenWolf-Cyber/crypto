@@ -4,9 +4,10 @@ const BASE_URL = "https://crypto-backend.gokuladethya.uk";
 
 // 6 months ago helper
 function sixMonthsAgo() {
-  const d = new Date();
-  d.setMonth(d.getMonth() - 3);
-  return d.toISOString();
+  // const d = new Date();
+  // d.setMonth(d.getMonth() - 3);
+  // return d.toISOString();
+  return "2025-08-01T00:00:00.000Z";
 }
 
 // Local storage helpers
@@ -101,7 +102,8 @@ export function usePrices(reloadTrigger = 0) {
         startTime = currentData[currentData.length - 1].date; // string
       }
 
-      const endTime = now.toISOString();
+      // const endTime = now.toISOString();
+      const endTime = "2025-10-01T00:00:00.000Z";
       const newPrices = await fetchPrices(startTime, endTime);
       // log length of new prices fetched
       console.log("New prices fetched:", newPrices.length);

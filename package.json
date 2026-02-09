@@ -2,6 +2,7 @@
   "name": "Crypto-MlOps",
   "private": true,
   "author": "Gokul Adethya",
+  "homepage": "https://https://crypto.gokuladethya.uk/",
   "description": "Frontend Dashboard for Crypto MLOps",
   "dependencies": {
     "@emotion/cache": "11.10.8",

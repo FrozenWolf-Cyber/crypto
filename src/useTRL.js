@@ -3,9 +3,10 @@ const BASE_URL = "https://crypto-backend.gokuladethya.uk";
 
 // Helper: get last 6 months
 function sixMonthsAgo() {
-  const d = new Date();
-  d.setMonth(d.getMonth() - 6);
-  return d.toISOString();
+  // const d = new Date();
+  // d.setMonth(d.getMonth() - 3);
+  // return d.toISOString();
+  return "2025-08-01T00:00:00.000Z";
 }
 
 // LocalStorage helpers
@@ -81,7 +82,8 @@ export function useTRL(reloadTrigger = 0) {
       const now = new Date();
       const startTime =
         currentData.length === 0 ? sixMonthsAgo() : currentData[currentData.length - 1].date;
-      const endTime = now.toISOString();
+      // const endTime = now.toISOString();
+      const endTime = "2025-10-01T00:00:00.000Z";
 
       const newTRL = await fetchTRL(startTime, endTime);
       console.log("Fetched TRL entries:", newTRL.length);
